@@ -1,7 +1,7 @@
 import requests, json, time
 
 url = 'http://192.168.1.109/json'
-cooldown = 5
+cooldown = 20
 
 
 if __name__ == '__main__':

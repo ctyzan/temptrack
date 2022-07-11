@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import json
 from datetime import datetime
 
-period = 150 #period of ticks in seconds
-cooldown = 5 #set your cooldown from main script
-#from main import cooldown
+period = 360 #period of ticks in seconds
+#cooldown = 5 #set your cooldown from main script
+from main import cooldown
 
 with open('data.txt', 'r') as f:
     data = f.read().replace('\'', '"')
@@ -36,7 +36,7 @@ for once in thinned_data:
 #plt.plot(list_data['time'], list_data['temp'], list_data['hum'])
 #plt.plot(list_data['time'], list_data['temp'])
 
-fig, ax = plt.subplots(2, 1, sharex=True)
+fig, ax = plt.subplots(2, 1, sharex=True, figsize=(10, 7))
 ax[0].plot(list_data['time'], list_data['temp'])
 ax[0].set_xlabel('time')
 ax[0].set_ylabel('temperature')
@@ -47,6 +47,8 @@ ax[1].set_ylabel('humidity')
 
 fig.tight_layout()
 fig.suptitle('temperature and humidity')
-plt.xticks(rotation=45, ha='right')
+fig.canvas.manager.set_window_title('temptrack')
+plt.xticks(rotation=80, ha='right')
 plt.subplots_adjust(top=0.92, bottom=0.3, right=0.98)
+plt.savefig('picture.png')
 plt.show()
