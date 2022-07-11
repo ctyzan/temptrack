@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import json
 from datetime import datetime
 
-period = 300
+period = 150 #period of ticks in seconds
 cooldown = 5 #set your cooldown from main script
 #from main import cooldown
 
