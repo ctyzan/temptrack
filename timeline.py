@@ -2,17 +2,45 @@ import matplotlib.pyplot as plt
 import json
 from datetime import datetime
 import math
+import argparse
 
 #cooldown = 5 #set your cooldown from main script
 from main import cooldown
-period = 601 #period of ticks in seconds
-ticks = 100
-method = 2 #method for averaging by period(1) or ticks(2), ticks works and looks better i think
+
+
+parser = argparse.ArgumentParser(description='Graph generator ')
+parser.add_argument('-s', '--show-graph', default=1,
+                    help='1 — show temp and hum graph, 0 — not',
+                    choices=['1', '2'])
+parser.add_argument('-p', '--period', type=int,
+                    help='Period of ticks in seconds', metavar='seconds',
+                    default=600)
+parser.add_argument('-t', '--ticks', default=75,
+                    help='Count of ticks on the graph', metavar='tickrate')
+parser.add_argument('-m', '--method', default=2,
+                    help='Select method for averaging. 1 — by period, 2 — ticks',
+                    choices=['1', '2'])
+parser.add_argument('-o', '--output', metavar='filename',
+                    help='Filename for graph (jpg or png)')
+parser.add_argument('-d', '--datafile', metavar='filename', default = 'data.txt',
+                    help='Filename for specific datafile',)
+
+
+args = parser.parse_args()
+
+period = int(args.period) #period of ticks in seconds
+ticks = int(args.ticks)
+method = int(args.method) #method for averaging by period(1) or ticks(2), ticks works and looks better i think
+show_graph = int(args.show_graph)
+datafile = args.datafile
+filename = args.output
+
+
 
 if period < cooldown:
     raise ValueError('The period cannot be less than a cooldown')
 
-with open('data.txt', 'r') as f:
+with open(datafile, 'r') as f:
     data = f.read().replace('\'', '"')
 
 splitted_data = data.split('\n')
@@ -164,5 +192,8 @@ plt.subplots_adjust(top=0.94,
                     right=0.985,
                     hspace=0.154,
                     wspace=0.205)
-plt.savefig('picture.png')
-plt.show()
+
+if filename != None:
+    plt.savefig(filename)
+if show_graph == 1:
+    plt.show()
