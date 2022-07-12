@@ -6,7 +6,7 @@ import math
 #cooldown = 5 #set your cooldown from main script
 from main import cooldown
 period = 601 #period of ticks in seconds
-ticks = 10
+ticks = 100
 method = 2 #method for averaging by period(1) or ticks(2), ticks works and looks better i think
 
 if period < cooldown:
@@ -16,17 +16,39 @@ with open('data.txt', 'r') as f:
     data = f.read().replace('\'', '"')
 
 splitted_data = data.split('\n')
-splitted_data.remove('')
+try:
+    splitted_data.remove('')
+except:
+    pass
 
+clear_splitted_data = []
+
+def filter_data():
+    errors_count = 0
+    for once in splitted_data:
+        try:
+            data = json.loads(once)
+            if (('t' in data) and ('h' in data) and ('time' in data)) and (data['t'] != 'nan' and data['h'] != 'nan'):
+                clear_splitted_data.append(data)
+            else:
+                raise
+        except:
+            errors_count += 1
+    
+    print('Invalid lines in data.txt:', errors_count)
+
+start_filtering_time = datetime.now()
+filter_data()
+print('Time spent on filtering: ', datetime.now() - start_filtering_time)
+
+lenght = len(clear_splitted_data)
 thinned_data = []
-
-lenght = len(splitted_data)
 
 ###data averaging###
 def averaging_by_period():
     summ_temp, summ_hum = 0, 0
     for i in range(0, lenght):
-        data_i = json.loads(splitted_data[i])
+        data_i = clear_splitted_data[i]
         summ_temp += float(data_i['t'])
         summ_hum += float(data_i['h'])
         if (i % (period // cooldown) == 0 and i != 0):
@@ -48,7 +70,7 @@ def averaging_by_ticks():
     ticks_step = math.floor(lenght / ticks)
     summ_temp_for_tick, summ_hum_for_tick = 0, 0
     for step in range((ticks - 1) * ticks_step):
-        data_tick_step = json.loads(splitted_data[step])
+        data_tick_step = clear_splitted_data[step]
         summ_temp_for_tick += float(data_tick_step['t']) 
         summ_hum_for_tick += float(data_tick_step['h']) 
         if step % ticks_step == ticks_step - 1:
@@ -59,7 +81,7 @@ def averaging_by_ticks():
     #for the last tick if ticks_step*ticks < lenght
     counter = 0
     for step in range((ticks - 1) * ticks_step, lenght):
-        data_tick_step = json.loads(splitted_data[step])
+        data_tick_step = clear_splitted_data[step]
         summ_temp_for_tick += float(data_tick_step['t']) 
         summ_hum_for_tick += float(data_tick_step['h']) 
         counter += 1
