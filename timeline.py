@@ -52,12 +52,10 @@ def averaging_by_ticks():
         summ_temp_for_tick += float(data_tick_step['t']) 
         summ_hum_for_tick += float(data_tick_step['h']) 
         if step % ticks_step == ticks_step - 1:
-            print(step)
             thinned_data.append({'t': summ_temp_for_tick / ticks_step,
                                 'h': summ_hum_for_tick / ticks_step,
                                 'time': data_tick_step['time']})
             summ_temp_for_tick, summ_hum_for_tick = 0, 0
-        print(summ_temp_for_tick, summ_hum_for_tick)
     #for the last tick if ticks_step*ticks < lenght
     counter = 0
     for step in range((ticks - 1) * ticks_step, lenght):
@@ -65,7 +63,6 @@ def averaging_by_ticks():
         summ_temp_for_tick += float(data_tick_step['t']) 
         summ_hum_for_tick += float(data_tick_step['h']) 
         counter += 1
-    print(counter, step)
     thinned_data.append({'t': summ_temp_for_tick / counter,
                             'h': summ_hum_for_tick / counter,
                             'time': data_tick_step['time']})
