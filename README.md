@@ -1,7 +1,9 @@
 ## temptrack
 
 Simple temperature tracker based on esp8266+dht22
+
 Just upload .ino on your esp(change ssidname and password) and host somwhere main.py with change ip of the esp in code
+
 You can set different cooldown for requests in main.py file
 
 ### Usage timeline.py
@@ -24,3 +26,15 @@ optional arguments:
                         Filename for graph (jpg or png)
   -d filename, --datafile filename
                         Filename for specific datafil
+
+### To do
+
+Start via cli with arguments: count of ticks, output, period✅
+
+Filter for data.txt✅
+
+Average stats for days, weeks, months
+
+Telegram bot
+
+Maybe shared server with stats, optional for everyone
