@@ -2,6 +2,10 @@
 
 Simple temperature tracker based on esp8266+dht22
 
+
+### Usage
+pip install -r requirements.txt
+
 Just upload .ino on your esp(change ssidname and password) and host somwhere main.py with change ip of the esp in code
 
 You can set different cooldown for requests in main.py file
