@@ -6,7 +6,7 @@ import math
 #cooldown = 5 #set your cooldown from main script
 from main import cooldown
 period = 601 #period of ticks in seconds
-ticks = 72
+ticks = 10
 method = 2 #method for averaging by period(1) or ticks(2), ticks works and looks better i think
 
 if period < cooldown:
